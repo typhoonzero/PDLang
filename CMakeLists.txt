@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/Paddle/cmake")
 set(PADDLE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Paddle)
-set(PADDLE_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+set(PADDLE_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/Paddle)
 
 project(pdlang CXX C)
 
@@ -26,8 +26,12 @@ include(external/threadpool)
 # =============== Global Config =================
 include(configure)
 include(generic)
+include(flags)
 include_directories("${PADDLE_SOURCE_DIR}")
+include_directories("${PADDLE_BINARY_DIR}")
 
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG")
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG")
 # =============== Patch framework.proto =================
 
 
@@ -36,8 +40,8 @@ add_subdirectory("Paddle/paddle/fluid/string")
 add_subdirectory("Paddle/paddle/fluid/memory")
 add_subdirectory("Paddle/paddle/fluid/recordio")
 add_subdirectory("Paddle/paddle/fluid/platform")
-add_subdirectory("Paddle/paddle/fluid/operators")
 add_subdirectory("Paddle/paddle/fluid/framework")
+add_subdirectory("Paddle/paddle/fluid/operators")
 
 # Modified framework directory
 add_subdirectory("pdlang")
